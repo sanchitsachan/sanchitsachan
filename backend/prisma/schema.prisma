@@ -1,0 +1,195 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  username  String   @unique
+  firstName String?
+  lastName  String?
+  role      UserRole @default(USER)
+  password  String
+  avatar    String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  reviews Review[]
+  votes   ReviewVote[]
+
+  @@map("users")
+}
+
+model Broker {
+  id                String       @id @default(uuid())
+  name              String       @unique
+  slug              String       @unique
+  logo              String?
+  website           String
+  description       String?
+  shortDescription  String?
+  foundedYear       Int?
+  headquarters      String?
+  regulation        String[]
+  minDeposit        Decimal?
+  maxLeverage       String?
+  spreadsFrom       Decimal?
+  tradingPlatforms  String[]
+  assetClasses      String[]
+  paymentMethods    String[]
+  customerSupport   String[]
+  languages         String[]
+  isActive          Boolean      @default(true)
+  isFeatured        Boolean      @default(false)
+  overallRating     Decimal      @default(0)
+  totalReviews      Int          @default(0)
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  reviews     Review[]
+  rankings    Ranking[]
+  comparisons BrokerComparison[]
+
+  @@map("brokers")
+}
+
+model Review {
+  id          String   @id @default(uuid())
+  brokerId    String
+  userId      String
+  title       String
+  content     String
+  rating      Int      @db.SmallInt // 1-5 stars
+  pros        String[]
+  cons        String[]
+  isVerified  Boolean  @default(false)
+  isApproved  Boolean  @default(false)
+  upvotes     Int      @default(0)
+  downvotes   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  broker Broker @relation(fields: [brokerId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  votes  ReviewVote[]
+
+  @@unique([brokerId, userId])
+  @@map("reviews")
+}
+
+model ReviewVote {
+  id       String   @id @default(uuid())
+  reviewId String
+  userId   String
+  voteType VoteType
+  createdAt DateTime @default(now())
+
+  review Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([reviewId, userId])
+  @@map("review_votes")
+}
+
+model Ranking {
+  id          String      @id @default(uuid())
+  brokerId    String
+  category    RankingCategory
+  position    Int
+  score       Decimal
+  year        Int
+  month       Int?
+  description String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  broker Broker @relation(fields: [brokerId], references: [id], onDelete: Cascade)
+
+  @@unique([brokerId, category, year, month])
+  @@map("rankings")
+}
+
+model BrokerComparison {
+  id          String   @id @default(uuid())
+  brokerId    String
+  title       String
+  description String?
+  features    Json     // Flexible JSON structure for comparison features
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  broker Broker @relation(fields: [brokerId], references: [id], onDelete: Cascade)
+
+  @@map("broker_comparisons")
+}
+
+model Article {
+  id          String      @id @default(uuid())
+  title       String
+  slug        String      @unique
+  content     String
+  excerpt     String?
+  author      String
+  coverImage  String?
+  category    ArticleCategory
+  tags        String[]
+  isPublished Boolean     @default(false)
+  isFeatured  Boolean     @default(false)
+  views       Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@map("articles")
+}
+
+model ContactSubmission {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("contact_submissions")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum VoteType {
+  UPVOTE
+  DOWNVOTE
+}
+
+enum RankingCategory {
+  OVERALL
+  SPREADS
+  CUSTOMER_SUPPORT
+  TRADING_PLATFORM
+  REGULATION
+  MOBILE_TRADING
+  EDUCATION
+  RESEARCH
+}
+
+enum ArticleCategory {
+  NEWS
+  EDUCATION
+  ANALYSIS
+  BROKER_REVIEW
+  TRADING_GUIDE
+  MARKET_UPDATE
+}
