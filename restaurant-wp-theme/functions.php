@@ -83,7 +83,7 @@ function seaside_widgets_init() {
 add_action('widgets_init', 'seaside_widgets_init');
 
 /**
- * Customizer options: contact and opening hours
+ * Customizer options: contact, hours, hero copy, and menu links
  */
 function seaside_customize_register($wp_customize) {
     $wp_customize->add_section('seaside_contact', [
@@ -136,7 +136,7 @@ function seaside_customize_register($wp_customize) {
         'type'    => 'url',
     ]);
 
-    // Map Embed (iframe or URL)
+    // Map Embed (iframe)
     $wp_customize->add_setting('seaside_map_embed', [
         'default'           => '<iframe width="100%" height="360" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=24.0%2C35.0%2C24.1%2C35.05&amp;layer=mapnik"></iframe>',
         'sanitize_callback' => 'wp_kses_post',
@@ -147,6 +147,48 @@ function seaside_customize_register($wp_customize) {
         'section'     => 'seaside_contact',
         'type'        => 'textarea',
     ]);
+
+    // Hero copy
+    $wp_customize->add_section('seaside_hero', [
+        'title'    => __('Hero', 'seaside'),
+        'priority' => 25,
+    ]);
+    $wp_customize->add_setting('seaside_hero_title', [
+        'default'           => __('Fish & Wine at its Best', 'seaside'),
+        'sanitize_callback' => 'sanitize_text_field',
+    ]);
+    $wp_customize->add_control('seaside_hero_title', [
+        'label'   => __('Hero Title', 'seaside'),
+        'section' => 'seaside_hero',
+        'type'    => 'text',
+    ]);
+    $wp_customize->add_setting('seaside_hero_subtitle', [
+        'default'           => __('A seaside escape of authentic Cypriot flavors', 'seaside'),
+        'sanitize_callback' => 'sanitize_text_field',
+    ]);
+    $wp_customize->add_control('seaside_hero_subtitle', [
+        'label'   => __('Hero Subtitle', 'seaside'),
+        'section' => 'seaside_hero',
+        'type'    => 'text',
+    ]);
+
+    // Menu links (pills)
+    $wp_customize->add_section('seaside_menu_links', [
+        'title'    => __('Menu Links', 'seaside'),
+        'priority' => 26,
+    ]);
+    foreach (['menu' => 'Menu', 'wine' => 'Wine List', 'desserts' => 'Desserts', 'drinks' => 'Drinks'] as $key => $label) {
+        $setting = 'seaside_link_' . $key;
+        $wp_customize->add_setting($setting, [
+            'default'           => '#',
+            'sanitize_callback' => 'esc_url_raw',
+        ]);
+        $wp_customize->add_control($setting, [
+            'label'   => sprintf(__('%s URL', 'seaside'), $label),
+            'section' => 'seaside_menu_links',
+            'type'    => 'url',
+        ]);
+    }
 }
 add_action('customize_register', 'seaside_customize_register');
 
@@ -156,4 +198,19 @@ add_action('customize_register', 'seaside_customize_register');
 function seaside_get_mod($name, $default = '') {
     $value = get_theme_mod($name);
     return $value !== false && $value !== '' ? $value : $default;
+}
+
+/**
+ * Check if a post is built with Elementor
+ */
+function seaside_is_elementor($post_id) {
+    if (!did_action('elementor/loaded')) {
+        return false;
+    }
+    try {
+        $document = \Elementor\Plugin::$instance->documents->get($post_id);
+        return $document && method_exists($document, 'is_built_with_elementor') && $document->is_built_with_elementor();
+    } catch (\Throwable $e) {
+        return false;
+    }
 }

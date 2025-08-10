@@ -10,8 +10,8 @@
     ?>
     <section class="hero" style="--hero-image: url('<?php echo esc_url($hero_image); ?>')">
       <div class="container hero-inner">
-        <h1 class="hero-title"><?php echo esc_html(get_bloginfo('name')); ?></h1>
-        <p class="hero-subtitle">Fish & Wine at its Best</p>
+        <h1 class="hero-title"><?php echo esc_html(seaside_get_mod('seaside_hero_title', 'Fish & Wine at its Best')); ?></h1>
+        <p class="hero-subtitle"><?php echo esc_html(seaside_get_mod('seaside_hero_subtitle', 'A seaside escape of authentic Cypriot flavors')); ?></p>
         <a href="<?php echo esc_url(seaside_get_mod('seaside_reserve_url', '#reserve')); ?>" class="btn btn-accent">Reserve a Table</a>
       </div>
     </section>
@@ -34,6 +34,23 @@
             <li>Local white wine pairing</li>
           </ul>
         </div>
+      </div>
+    </section>
+
+    <section class="pills">
+      <div class="container" style="display:flex; gap:.5rem; flex-wrap:wrap; justify-content:center;">
+        <?php
+          $pills = [
+            ['label' => 'Menu', 'mod' => 'seaside_link_menu'],
+            ['label' => 'Wine List', 'mod' => 'seaside_link_wine'],
+            ['label' => 'Desserts', 'mod' => 'seaside_link_desserts'],
+            ['label' => 'Drinks', 'mod' => 'seaside_link_drinks'],
+          ];
+          foreach ($pills as $pill) :
+            $href = seaside_get_mod($pill['mod'], '#');
+        ?>
+          <a class="btn" style="background:#e7eef7;color:#113458;border-color:#cfe0f5" href="<?php echo esc_url($href); ?>"><?php echo esc_html($pill['label']); ?></a>
+        <?php endforeach; ?>
       </div>
     </section>
 
