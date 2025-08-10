@@ -1,0 +1,121 @@
+/*
+Theme Name: Ocean Cyprus Restaurant
+Theme URI: https://example.com/ocean-cyprus
+Author: Your Name
+Author URI: https://example.com
+Description: A clean, Elementor-ready WordPress theme tailored for a seaside restaurant. Includes a full-width Elementor template and a handcrafted homepage layout matching the provided design.
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 6.5
+Requires PHP: 7.4
+Text Domain: ocean-cyprus
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags: elementor, restaurant, landing page, responsive, accessibility-ready
+*/
+
+/* Root variables for palette and spacing */
+:root {
+  --oc-color-navy: #1a3a5a;
+  --oc-color-navy-2: #234a74;
+  --oc-color-navy-3: #2c5c8b;
+  --oc-color-light: #f7f9fc;
+  --oc-color-mid: #dfe7f0;
+  --oc-color-accent: #c7a35c;
+  --oc-color-muted: #6b7c90;
+  --oc-text-dark: #0e1b2a;
+  --oc-white: #ffffff;
+
+  --oc-container: 1200px;
+  --oc-gutter: 24px;
+}
+
+/* Basic resets (theme-agnostic; Elementor will apply its own) */
+html { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+body {
+  margin: 0;
+  color: var(--oc-text-dark);
+  background: var(--oc-white);
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 1.6;
+}
+img { max-width: 100%; height: auto; display: block; }
+.container { width: min(100%, var(--oc-container)); margin: 0 auto; padding: 0 var(--oc-gutter); }
+
+/* Utility */
+.oc-btn { display: inline-block; padding: 12px 22px; background: var(--oc-color-accent); color: var(--oc-white); text-decoration: none; border-radius: 4px; font-weight: 600; }
+.oc-btn--outline { background: transparent; color: var(--oc-white); border: 2px solid var(--oc-white); }
+.oc-stripes { height: 10px; background:
+  linear-gradient(var(--oc-white), var(--oc-white)) top left / 100% 2px no-repeat,
+  linear-gradient(var(--oc-white), var(--oc-white)) center / 100% 2px no-repeat,
+  linear-gradient(var(--oc-white), var(--oc-white)) bottom left / 100% 2px no-repeat;
+}
+
+/* Header */
+.site-header { position: sticky; top: 0; z-index: 1000; background: var(--oc-color-navy); color: var(--oc-white); }
+.site-header .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.site-branding a { color: var(--oc-white); text-decoration: none; font-weight: 800; letter-spacing: 0.5px; }
+.primary-menu { list-style: none; margin: 0; padding: 0; display: flex; gap: 24px; align-items: center; }
+.primary-menu a { color: var(--oc-white); text-decoration: none; font-weight: 600; }
+.primary-cta { margin-left: 12px; }
+
+/* Hero */
+.hero { position: relative; color: var(--oc-white); background: radial-gradient(1200px 480px at 70% 30%, rgba(255,255,255,0.05), rgba(0,0,0,0.65)), linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.55)), url(assets/images/hero.jpg) center/cover no-repeat; min-height: 70vh; display: grid; align-items: center; }
+.hero__inner { padding: 80px 0; }
+.hero h1 { font-family: "Playfair Display", Georgia, serif; font-weight: 800; font-size: clamp(36px, 6vw, 64px); margin: 0 0 12px; }
+.hero p { max-width: 720px; margin: 0 0 20px; font-size: 18px; }
+
+/* Sections */
+.section { padding: 64px 0; }
+.section--alt { background: var(--oc-color-light); }
+.section-title { font-family: "Playfair Display", Georgia, serif; font-size: clamp(28px, 3.6vw, 42px); margin: 0 0 16px; color: var(--oc-color-navy); }
+
+/* Two-column intro */
+.intro { display: grid; gap: 28px; grid-template-columns: 1.25fr 0.75fr; align-items: start; }
+.intro .card { background: var(--oc-white); border: 1px solid var(--oc-color-mid); border-radius: 8px; overflow: hidden; box-shadow: 0 10px 18px rgba(0,0,0,0.06); }
+.intro .card__body { padding: 16px; }
+
+/* Info bar (reserve + hours) */
+.info-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; background: var(--oc-color-navy-2); color: var(--oc-white); padding: 28px; border-radius: 8px; }
+.info-box h3 { margin: 0 0 8px; }
+.info-box .muted { color: #d6e2f2; }
+
+/* Map */
+.map-wrap { border: 6px solid var(--oc-white); box-shadow: 0 8px 18px rgba(12,24,44,0.18); }
+.map-wrap iframe { width: 100%; height: 360px; border: 0; display: block; }
+
+/* Gallery */
+.gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.gallery img { border-radius: 8px; }
+
+/* Callout band */
+.callout { background: var(--oc-color-navy-3); color: var(--oc-white); text-align: center; padding: 40px 20px; border-radius: 8px; }
+
+/* Testimonials */
+.testimonials { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.testimonial { background: var(--oc-white); border: 1px solid var(--oc-color-mid); padding: 16px; border-radius: 8px; }
+
+/* Contact */
+.contact { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.contact form input, .contact form textarea { width: 100%; padding: 12px; border: 1px solid var(--oc-color-mid); border-radius: 6px; background: var(--oc-white); font: inherit; }
+.contact form button { margin-top: 12px; }
+
+/* Footer */
+.site-footer { background: var(--oc-color-navy); color: var(--oc-white); padding: 40px 0 0; }
+.footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 24px; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.18); margin-top: 24px; padding: 12px 0; font-size: 14px; color: #d6e2f2; }
+
+/* Responsive */
+@media (max-width: 980px) {
+  .intro { grid-template-columns: 1fr; }
+  .info-bar { grid-template-columns: 1fr; }
+  .testimonials { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .contact { grid-template-columns: 1fr; }
+  .gallery { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .primary-menu { display: none; }
+  .gallery { grid-template-columns: 1fr; }
+}

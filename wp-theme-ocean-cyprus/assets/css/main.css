@@ -1,0 +1,12 @@
+/* Additional styles for Ocean Cyprus theme */
+/* This file supplements style.css and is enqueued separately. */
+
+.footer-menu { list-style: none; padding: 0; }
+.footer-menu li { margin: 6px 0; }
+.footer-menu a { color: #e8f0ff; text-decoration: none; }
+
+/* Simple accessibility focus outline */
+:focus { outline: 2px dashed var(--oc-color-accent); outline-offset: 2px; }
+
+/* Hide screen-reader-text helper class if used */
+.screen-reader-text { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
