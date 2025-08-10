@@ -1,0 +1,27 @@
+/*
+Theme Name: Seaside Restaurant
+Theme URI: https://example.com/seaside-restaurant
+Author: Your Name
+Author URI: https://example.com
+Description: A responsive, elegant restaurant theme featuring a seaside aesthetic.
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 6.5
+Requires PHP: 7.4
+Text Domain: seaside
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Tags: restaurant, blog, custom-logo, custom-menu, featured-images, full-width-template
+*/
+
+/* This file intentionally contains only metadata. Real styles live in assets/css/main.css */
+
+:root {
+  --seaside-blue-900: #0f2a45;
+  --seaside-blue-800: #143a62;
+  --seaside-blue-600: #1c4f8b;
+  --seaside-blue-400: #2e6cb5;
+  --seaside-light: #f7fafc;
+  --seaside-accent: #e6b671;
+  --seaside-text: #1f2937;
+}
