@@ -21,12 +21,25 @@ function seaside_setup() {
         'flex-width'  => true,
     ]);
 
+    // Let WordPress know about our menus
     register_nav_menus([
         'primary' => __('Primary Menu', 'seaside'),
         'footer'  => __('Footer Menu', 'seaside'),
     ]);
 }
 add_action('after_setup_theme', 'seaside_setup');
+
+/**
+ * Elementor Pro Theme Builder support: allow Elementor to override header/footer
+ */
+function seaside_register_elementor_locations($elementor_theme_manager) {
+    if (!class_exists('Elementor\\Theme\\Locations\\Manager')) {
+        return;
+    }
+    $elementor_theme_manager->register_location('header');
+    $elementor_theme_manager->register_location('footer');
+}
+add_action('elementor/theme/register_locations', 'seaside_register_elementor_locations');
 
 /**
  * Enqueue assets
@@ -48,7 +61,7 @@ function seaside_assets() {
     $main_css_ver  = file_exists($main_css_path) ? filemtime($main_css_path) : SEASIDE_VERSION;
     wp_enqueue_style('seaside-main', get_template_directory_uri() . '/assets/css/main.css', ['seaside-style'], $main_css_ver);
 
-    // Theme scripts (if needed in future)
+    // Theme scripts
     wp_enqueue_script('seaside-scripts', get_template_directory_uri() . '/assets/js/main.js', [], SEASIDE_VERSION, true);
 }
 add_action('wp_enqueue_scripts', 'seaside_assets');

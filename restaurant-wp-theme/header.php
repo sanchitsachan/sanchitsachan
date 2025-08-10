@@ -7,6 +7,7 @@
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
+<div class="stripes" aria-hidden="true"></div>
 <header class="site-header">
     <div class="container header-inner">
         <div class="branding">
